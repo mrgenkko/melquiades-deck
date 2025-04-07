@@ -2,6 +2,8 @@
 
 Esta es nuestra version pirata de la Stream Deck, para control de audio, keybindings y demas se debe de vincular con Melquiades Desktop App.
 
+Quedan algunos detalles pendientes pero por tiempo y en parte paja se deja para desps, recomendable usar el proyecto en espressif, arduino es viejo y pertenece a otra board mas ficty.
+
 ## Características
 
 - **Potenciometros**: Lectura de potenciometros, debido al numero limitado de entradas se deja un maximo de 6 potenciometros por dispositivo.
