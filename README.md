@@ -43,10 +43,10 @@ Asegúrate de tener instalados los siguientes programas y herramientas antes de 
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/usuario/nombre-del-repositorio.git
+   git clone https://github.com/mrgenkko/melquiades-deck.git
 2. Instalar bibliotecas de python (necesario para pruebas de escritorio):
    ```bash
-   python asd asd
+   pip install pybluez
 ### Funciones disponibles
 1. Inicializa el LED verde de la board
 
