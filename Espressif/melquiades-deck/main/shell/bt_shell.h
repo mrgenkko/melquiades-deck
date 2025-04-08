@@ -12,6 +12,6 @@
 #include "../sensors/potentiometers.h"
 #include "../sensors/buttons.h"
 
-void bt_shell_task(void);
+void bt_shell_task(void *pvParameters);
 
 #endif /* _BT_SHELL_H_ */

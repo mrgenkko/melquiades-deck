@@ -9,13 +9,13 @@
 
 // Bibliotecas custom
 #include "state.h"
+#include "audio/audio_output.h"
+#include "audio/sine_wave.h"
 #include "bluetooth/init.h"
 #include "leds/board.h"
 #include "sensors/buttons.h"
 #include "sensors/potentiometers.h"
-#include "shell/shell_init.h"
 #include "shell/uart_shell.h"
-#include "shell/bt_shell.h"
 
 // Funcion ppal de la app
 void app_main()
@@ -36,7 +36,7 @@ void app_main()
     init_bluetooth();
     //Creamos tareas para las shell de UART y BT
     xTaskCreate(bt_shell_task, "bt_shell_task", 4096, NULL, 5, NULL);
-    xTaskCreate(uart_shell_task, "uart_shell_task", 4096, NULL, 5, NULL);        
-    // Inicializar el shell
-    //shell_init();
+    xTaskCreate(uart_shell_task, "uart_shell_task", 4096, NULL, 5, NULL);            
+    //Creamos tarea para onda senoidal (prueba de psm5102)
+    xTaskCreate(sine_wave_task, "sine_wave_task", 4096, NULL, 5, NULL);
 }
