@@ -1,0 +1,38 @@
+name: Bug Report
+description: Report a problem or unexpected behavior
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug!
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: ESP32 board, IDF version, or anything relevant
+      placeholder: TTGO T7 Mini32 - ESP-IDF v4.4.1
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Describe how to reproduce the issue
+      placeholder: |
+        1. Connect PCM5102
+        2. Call audio_output_init()
+        3. Observe error log
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Error Messages
+      description: Paste relevant logs
+      render: shell
+    validations:
+      required: false
