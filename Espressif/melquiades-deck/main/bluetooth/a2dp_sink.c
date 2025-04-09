@@ -1,3 +1,4 @@
+//Bibliotecas de Sistema
 #include "a2dp_sink.h"
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -9,8 +10,10 @@
 #include "esp_gap_bt_api.h"
 #include "esp_a2dp_api.h"
 #include "esp_avrc_api.h"
-#include "../audio/audio_output.h"
+//bibliotecas custom
 #include "bluetooth_common.h"
+#include "../audio/audio_output.h"
+
 
 #define BT_A2DP_TAG "Melquiades_Deck_A2DP"
 #define BT_DEVICE_NAME "Melquiades-Deck"

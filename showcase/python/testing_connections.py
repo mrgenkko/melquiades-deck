@@ -201,11 +201,11 @@ class ESP32Client:
                         print("No se recibió respuesta")
                     
             # Si el comando parece ser para iniciar un stream, activarlo
-            if("start_sensors" == command):
+            if("sensors start" == command):
                 self.start_stream()
 
-            if("stop_sensors" == command):
-                self.start_stream()            
+            if("sensors stop" == command):
+                self.stop_stream()            
             
                 
         except Exception as e:

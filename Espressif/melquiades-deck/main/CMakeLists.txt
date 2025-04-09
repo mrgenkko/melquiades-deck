@@ -10,8 +10,7 @@ idf_component_register(
             "leds/board.c"
             "sensors/buttons.c"
             "sensors/potentiometers.c"
-            "shell/bt_shell.c"
-            "shell/shell_init.c"            
+            "shell/common_shell.c"            
             "shell/uart_shell.c"
     INCLUDE_DIRS "audio" "bluetooth" "leds" "sensors" "shell"    
 )

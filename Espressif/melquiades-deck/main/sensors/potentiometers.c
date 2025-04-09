@@ -1,5 +1,11 @@
 #include "potentiometers.h"
-
+//bibliotecas de sistema
+#include "driver/adc.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+//bibliotecas custom
+#include "../state.h"
+#include "../bluetooth/spp_init.h"
 // Puertos asignados a los potenciometros
 #define ADC_POT_1 ADC1_CHANNEL_0 // GPIO36 (ADC00)
 #define ADC_POT_2 ADC2_CHANNEL_9 // GPIO26 (ADC19)

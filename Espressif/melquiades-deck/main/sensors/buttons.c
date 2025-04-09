@@ -1,4 +1,10 @@
 #include "buttons.h"
+//Bibliotecas de sistema
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+//bibliotecas custom
+#include "../state.h"
+#include "../bluetooth/spp_init.h"
 
 void init_pulsadores()
 {

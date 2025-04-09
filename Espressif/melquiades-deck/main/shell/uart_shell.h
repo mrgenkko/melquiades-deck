@@ -4,4 +4,4 @@
 
 void uart_shell_task(void *pvParameters);
 
-#endif /* _SHELL_INIT_H_ */
+#endif /* _UART_SHELL_H_ */

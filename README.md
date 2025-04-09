@@ -56,20 +56,40 @@ Asegúrate de tener instalados los siguientes programas y herramientas antes de 
 1. Inicializa el LED verde de la board
 
    ```bash
-   start_led_board
+   led_board start
 2. Detiene el LED verde de la board
 
    ```bash
-   stop_led_board
+   led_board stop
 3. Inicio lecutra de sensores (potenciometros y pulsadores)
 
    ```bash
-   start_sensors
+   sensors start
 4. Detenemos lectura de sensores
 
    ```bash
-   stop_sensores
-5. Comando de ayuda, opciones disponibles
+   sensors stop
+5. Establecemos volumen, varia entre 0 y 100
+
+   ```bash
+   set_volume 50
+6. Definimos modo de ecualizacion, recibe los valores flat, bass_boost, mid_boost, treble_boost, vocal.
+
+   ```bash
+   eq flat
+7. Headphone balance sigue en progreso, par valores maluquitos, deberia de variar entre -1.00 y 1.00
+
+   ```bash
+   headphone_balance -0.2
+8. Habilitamos filtrado con DSP
+
+   ```bash
+   dsp enabled
+9. Deshabilitamos filtrado con DSP
+
+   ```bash
+   dsp disabled
+9. Comando de ayuda
 
    ```bash
    help
