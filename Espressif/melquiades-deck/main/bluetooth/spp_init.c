@@ -1,4 +1,4 @@
-#include "init.h"
+#include "spp_init.h"
 // Bibliotecas de sistema
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -16,10 +16,11 @@
 #include "../leds/board.h"
 #include "../sensors/buttons.h"
 #include "../sensors/potentiometers.h"
+#include "bluetooth_common.h"
 
 // Definiciones de archivo
-#define SPP_TAG "ESP32_SPP"
-#define SPP_SERVER_NAME "Melquiades_ESP32"
+#define SPP_TAG "Melquiades_Deck_SPP"
+#define SPP_SERVER_NAME "Melquiades_Deck_ESP32"
 #define BT_DEVICE_NAME "Melquiades-Deck"
 
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
@@ -156,39 +157,11 @@ void init_bluetooth(void)
     esp_err_t ret;
     cmd_queue = xQueueCreate(10, sizeof(bt_cmd_t));
 
-    ESP_LOGI(SPP_TAG, "Inicializando Bluetooth...");
+    ESP_LOGI(SPP_TAG, "Inicializando Bluetooth SPP...");
 
-    // Liberar memoria BLE si solo usaremos Bluetooth clásico
-    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_BLE));
-
-    // Configuración del controlador Bluetooth
-    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
-
-    // Inicializar controlador BT
-    if ((ret = esp_bt_controller_init(&bt_cfg)) != ESP_OK)
-    {
-        ESP_LOGE(SPP_TAG, "Inicialización del controlador BT falló: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Habilitar controlador BT en modo clásico
-    if ((ret = esp_bt_controller_enable(ESP_BT_MODE_CLASSIC_BT)) != ESP_OK)
-    {
-        ESP_LOGE(SPP_TAG, "Habilitación del controlador BT falló: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Inicializar Bluedroid
-    if ((ret = esp_bluedroid_init()) != ESP_OK)
-    {
-        ESP_LOGE(SPP_TAG, "Inicialización de Bluedroid falló: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Habilitar Bluedroid
-    if ((ret = esp_bluedroid_enable()) != ESP_OK)
-    {
-        ESP_LOGE(SPP_TAG, "Habilitación de Bluedroid falló: %s", esp_err_to_name(ret));
+    // Usar la inicialización común del Bluetooth
+    if ((ret = init_bluetooth_common()) != ESP_OK) {
+        ESP_LOGE(SPP_TAG, "Inicialización Bluetooth común falló: %s", esp_err_to_name(ret));
         return;
     }
 

@@ -11,11 +11,13 @@
 #include "state.h"
 #include "audio/audio_output.h"
 #include "audio/sine_wave.h"
-#include "bluetooth/init.h"
+#include "bluetooth/a2dp_sink.h"
+#include "bluetooth/spp_init.h"
 #include "leds/board.h"
 #include "sensors/buttons.h"
 #include "sensors/potentiometers.h"
 #include "shell/uart_shell.h"
+
 
 // Funcion ppal de la app
 void app_main()
@@ -29,14 +31,18 @@ void app_main()
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
-    //Inicializamos componentes necesarios
+    //Inicializamos componentes de board y sensores
     init_potentiometers();
     init_pulsadores();
-    init_led_board();
-    init_bluetooth();
-    //Creamos tareas para las shell de UART y BT
+    init_led_board();    
+    // Inicializar los perfiles Bluetooth
+    init_a2dp_sink();  // Inicializar A2DP para audio
+    init_bluetooth();  // Inicializar SPP para comandos
+
+    // Crear tareas
     xTaskCreate(bt_shell_task, "bt_shell_task", 4096, NULL, 5, NULL);
-    xTaskCreate(uart_shell_task, "uart_shell_task", 4096, NULL, 5, NULL);            
+    xTaskCreate(uart_shell_task, "uart_shell_task", 4096, NULL, 5, NULL);    
+
     //Creamos tarea para onda senoidal (prueba de psm5102)
-    xTaskCreate(sine_wave_task, "sine_wave_task", 4096, NULL, 5, NULL);
+    //xTaskCreate(sine_wave_task, "sine_wave_task", 4096, NULL, 5, NULL);
 }

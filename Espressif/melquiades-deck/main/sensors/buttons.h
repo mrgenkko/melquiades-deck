@@ -5,7 +5,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "../state.h"
-#include "../bluetooth/init.h"
+#include "../bluetooth/spp_init.h"
 
 // Puertos asignados a pulsadores/botones
 #define BTN1 GPIO_NUM_27 // ADC17

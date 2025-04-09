@@ -5,7 +5,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "../state.h"
-#include "../bluetooth/init.h"
+#include "../bluetooth/spp_init.h"
 
 void init_potentiometers();
 void read_potentiometers();
