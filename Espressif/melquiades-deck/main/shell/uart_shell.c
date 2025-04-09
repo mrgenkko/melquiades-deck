@@ -176,7 +176,6 @@ void uart_shell_task(void *pvParameters)
                 printf("Comando no válido. Escriba help para listado de comandos validos:\n");
             }
         }
-
         vTaskDelay(pdMS_TO_TICKS(500)); // Delay para que el sistema no se emperique
     }
 }
