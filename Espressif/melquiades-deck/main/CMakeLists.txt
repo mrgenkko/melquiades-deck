@@ -1,6 +1,7 @@
 idf_component_register(
     SRCS    "melquiades_deck_main.c"
             "state.c"
+            "audio/audio_dsp.c"
             "audio/audio_output.c"
             "audio/sine_wave.c"
             "bluetooth/a2dp_sink.c"

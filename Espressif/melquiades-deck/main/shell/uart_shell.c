@@ -1,27 +1,31 @@
 #include "uart_shell.h"
 
-// Función para limpiar el buffer de entrada
-void clear_stdin()
-{
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ; // Vacía los caracteres restantes en el buffer
-}
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-//Funcion para manejar el shell usado via UART
+#include "../state.h"
+#include "../leds/board.h"
+#include "../sensors/potentiometers.h"
+#include "../sensors/buttons.h"
+#include "../bluetooth/a2dp_sink.h"
+
+// Funcion para manejar el shell usado via UART
 void uart_shell_task(void *pvParameters)
 {
     char input[20]; // Buffer para recibir el comando
     printf("\nIngrese comando:\n");
     while (1)
     {
-        // Lee un string de hasta 19 caracteres
-        if (scanf("%19s", input) == 1)
+        if (fgets(input, sizeof(input), stdin) != NULL)
         {
-            // Limpia el buffer después de la lectura
-            clear_stdin(); 
-            //Iniciamos las validaciones de los comandos recibidos
-            if (strcmp(input, "start_led_board") == 0)
+            // Eliminar salto de línea
+            input[strcspn(input, "\n")] = 0;
+            /*****COMANDOS PARA LED*****/
+            if (strcmp(input, "led_board start") == 0)
             {
                 if (tasl_ledboard_handle == NULL)
                 {
@@ -33,7 +37,7 @@ void uart_shell_task(void *pvParameters)
                     printf("La tarea de encender led ya está en ejecución.\n");
                 }
             }
-            else if (strcmp(input, "stop_led_board") == 0)
+            else if (strcmp(input, "led_board stop") == 0)
             {
                 if (tasl_ledboard_handle != NULL)
                 {
@@ -42,25 +46,28 @@ void uart_shell_task(void *pvParameters)
                     printf("Se pausa encendido de led.\n");
                 }
             }
-            //Seccion de sensores
-            else if (strcmp(input, "start_sensors") == 0)
+            /*****COMANDOS PARA SENSORES*****/
+            else if (strcmp(input, "sensors start") == 0)
             {
-                if(sensors_streaming_uart){
+                if (sensors_streaming_uart)
+                {
                     printf("Actualmente nos encontramos transmitiendo data via UART.\n");
-                }else{
-                    //Cambiamos estado global a true para no incurrir en recreacion de tareas
+                }
+                else
+                {
+                    // Cambiamos estado global a true para no incurrir en recreacion de tareas
                     sensors_streaming_uart = true;
                     if (task_pot_handle == NULL)
                     {
-                        xTaskCreate(read_potentiometers, "read_potentiometers", 2048, NULL, 5, &task_pot_handle);                                      
+                        xTaskCreate(read_potentiometers, "read_potentiometers", 2048, NULL, 5, &task_pot_handle);
                     }
                     if (task_btn_handle == NULL)
-                    {                    
-                        xTaskCreate(leer_pulsadores, "leer_pulsadores", 2048, NULL, 5, &task_btn_handle);                    
+                    {
+                        xTaskCreate(leer_pulsadores, "leer_pulsadores", 2048, NULL, 5, &task_btn_handle);
                     }
-                }                
+                }
             }
-            else if (strcmp(input, "stop_sensors") == 0)
+            else if (strcmp(input, "sensors stop") == 0)
             {
                 if (sensors_streaming_uart && !sensors_streaming_bt)
                 {
@@ -68,23 +75,98 @@ void uart_shell_task(void *pvParameters)
                     if (task_pot_handle != NULL)
                     {
                         vTaskDelete(task_pot_handle);
-                        task_pot_handle = NULL;                    
+                        task_pot_handle = NULL;
                     }
                     if (task_btn_handle != NULL)
                     {
                         vTaskDelete(task_btn_handle);
-                        task_btn_handle = NULL;                    
+                        task_btn_handle = NULL;
                     }
-                }else if(sensors_streaming_uart && sensors_streaming_bt)
+                }
+                else if (sensors_streaming_uart && sensors_streaming_bt)
                 {
                     sensors_streaming_uart = false;
                     printf("Se cierra streaming en UART, BT sigue transmitiendo.\n");
-                } else
+                }
+                else
                 {
                     printf("No nos encontramos realizando ningun tipo de streaming.\n");
-                }                
-            }    
-            // Comandos adicionales
+                }
+            }
+            /*****COMANDOS PARA VOLUMEN*****/
+            else if (strncmp(input, "set_volume ", 11) == 0)
+            {
+                char *param = input + 11;
+                if (isdigit((unsigned char)param[0]))
+                {
+                    int volumen = atoi(param);
+                    set_volume(volumen);
+                    printf("Se cambia volumen a %d.\n", volumen);
+                }
+                else
+                {
+                    printf("Error: volumen inválido.\n");
+                }
+            }
+            /*****COMANDOS PARA ECUALIZADOR*****/
+            else if (strncmp(input, "eq ", 3) == 0)
+            {
+                char *param = input + 3;
+                if (strcmp(param, "flat") == 0)
+                {
+                    set_eq_preset(EQ_FLAT);
+                    printf("Se cambia ecualizacion a EQ_FLAT.\n");
+                }
+                else if (strcmp(param, "bass_boost") == 0)
+                {
+                    set_eq_preset(EQ_BASS_BOOST);
+                    printf("Se cambia ecualizacion a EQ_BASS_BOOST.\n");
+                }
+                else if (strcmp(param, "mid_boost") == 0)
+                {
+                    set_eq_preset(EQ_MID_BOOST);
+                    printf("Se cambia ecualizacion a EQ_MID_BOOST.\n");
+                }
+                else if (strcmp(param, "treble_boost") == 0)
+                {
+                    set_eq_preset(EQ_TREBLE_BOOST);
+                    printf("Se cambia ecualizacion a EQ_TREBLE_BOOST.\n");
+                }
+                else if (strcmp(param, "vocal") == 0)
+                {
+                    set_eq_preset(EQ_VOCAL);
+                    printf("Se cambia ecualizacion a EQ_VOCAL.\n");
+                }
+            }
+            /*****COMANDOS PARA BALANCE*****/
+            else if (strncmp(input, "headphone_balance ", 18) == 0)
+            {
+                char *param = input + 18;
+                // Saltar espacios iniciales
+                while (*param == ' ') param++;
+                if (isdigit((unsigned char)param[0]) || param[0] == '-' || param[0] == '.')
+                {
+                    float value = strtof(param, NULL);
+                    set_balance(value);
+                    printf("Se cambia balance a %.2f\n", value);
+                }
+                else
+                {
+                    printf("Error: balance inválido.\n");
+                }     
+            }
+            /*****COMANDOS PARA DSP*****/
+            else if (strcmp(input, "dsp enabled") == 0)
+            {
+                set_dsp_enabled(true);
+                printf("Se activa DSP.\n");
+            }
+            else if (strcmp(input, "dsp disabled") == 0)
+            {
+                set_dsp_enabled(false);
+                printf("Se desactiva DSP.\n");
+            }
+            /*****OTROS*****/
             else if (strcmp(input, "help") == 0)
             {
                 printf(cmd_commands);
