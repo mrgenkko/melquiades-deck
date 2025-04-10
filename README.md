@@ -1,17 +1,23 @@
-<h1 align = "center">Melquiades Stream Deck</h1>
+<h1 align = "center">Melquiades Deck</h1>
 
-Esta es nuestra version pirata de la Stream Deck, para control de audio, keybindings y demas se debe de vincular con Melquiades Desktop App.
+Hace unos meses me diagnosticaron hipoacusia súbita idiopática en el oído derecho, como secuela tengo tinnitus crónica y una pérdida del 96% de audición, sin duda alguna esta ha sido una de las tribulaciones mas hijueputas que he afrontado en 29 años de una existencia que podría considerarse poco usual y he de admitir que el ruido que conlleva mi condición me ha sumergido en un increíble foso de tristeza y desolación del cual ha sido bastante complejo salir.
 
-Quedan algunos detalles pendientes pero por tiempo y en parte paja se deja para desps, recomendable usar el proyecto en Espressif, el codigo de Arduino es viejo y pertenece a otra board mas ficty.
+Realizar este proyecto no solo me ha ayudado a afrontar mi perdida, me dio la confianza suficiente para retomar el ritmo de trabajo que pensaba haber perdido debido a un incesante ruido que no logro cesar.
 
-Una vez finalizado el proyecto o a lo que tenga tiempo subo un esquematico donde se conectan todos los compoentes, actualmente solo esta el diagrama de pines de la Lilygo.
+Ya hablando serio y dejando el background que nadie pidió de lado, este dispositivo esta diseñado para ser usado con Melquiades Desktop, en showcase tengo un ejemplo en python para probar el device y saber que comandos utilizar o como gestionar streaming de sensores
+
+Quedan algunos detalles pendientes pero por tiempo y en parte paja se deja para después, recomendable usar el proyecto en Espressif, el código de Arduino es viejo y pertenece a otra board más ficty.
+
+Una vez finalizado el proyecto o a lo que tenga tiempo subo un esquemático donde se conectan todos los componentes, actualmente solo está el diagrama de pines de la Lilygo, tal vez un video armando el dispositivo y otro configurando entorno en Windows.
 
 ## Características
 
-- **Potenciometros**: Lectura de potenciometros, debido al numero limitado de entradas se deja un maximo de 6 potenciometros por dispositivo.
-- **Pulsadores**: Lectura de pulsadores/botones, debido al numero limitado de entradas se deja un maximo de 6 pulsadores por dispositivo
-- **Jack 3.5mm**: Modulo en desarrollo, se necesita PCM5102.
-- **Bluetooth**: Shell exclusiva para comandos via BT, si se usa PCM5102 se puede gestionar audio.
+- **Bluetooth**: Shell exclusiva para comandos via BT, al emplear PCM5102 podemos conectar audifonos y transmitir audio, pendiente tema de mic.
+- **DAC**: Se necesita PCM5102, podemos conectar audifonos, ecualizar y aumentar el volumen maximo.
+- **Ecualizacion por audifono**:Podemos separar la senal de audio por canal (derecho o izquierdo), subir volumen, crear ecualizacion custom, entre otros
+- **Sensores**: Tenemos maximo 12 slots para sensores, ya sea potenciometros o pulsadores, para asignar funcionalidad se debe de vincular con Melquiades Desktop
+- **Keybindings**: Para usar esta funcionalidad debemos vincular con Melquiades Desktop y asignar sensores.
+- **Audio Modulation**:Para modular el audio de apps por separado o master, vincular con Melquiades Desktop.
 - **Gestion Bateria**: Modulo en desarrollo, la verdad no tenemos mas puertos para conectar.
 
 ## Hardware
