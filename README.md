@@ -2,7 +2,7 @@
 
 Hace unos meses me diagnosticaron hipoacusia súbita idiopática en el oído derecho, como secuela tengo tinnitus crónica y una pérdida del 96% de audición, sin duda alguna esta ha sido una de las tribulaciones mas hijueputas que he afrontado en 29 años de una existencia que podría considerarse poco usual y he de admitir que el ruido que conlleva mi condición me ha sumergido en un increíble foso de tristeza y desolación del cual ha sido bastante complejo salir.
 
-Realizar este proyecto no solo me ha ayudado a afrontar mi perdida, me dio la confianza suficiente para retomar el ritmo de trabajo que pensaba haber perdido debido a un incesante ruido que no logro cesar.
+Realizar este proyecto no solo me ha ayudado a afrontar mi perdida, me dio la confianza suficiente para retomar el ritmo de trabajo y los conocimientos que pensaba haber perdido.
 
 Ya hablando serio y dejando el background que nadie pidió de lado, este dispositivo esta diseñado para ser usado con Melquiades Desktop, en showcase tengo un ejemplo en python para probar el device y saber que comandos utilizar o como gestionar streaming de sensores
 
